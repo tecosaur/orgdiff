@@ -1,0 +1,33 @@
+#+title: OrgDiff
+#+author: tecosaur
+
+As we're all aware, one of the lovely things about working in plaintext is that
+you can run version control over your documents. =git diff= does a perfectly
+passable job at showing you how your Org files has changed, but what about when
+you want something richer? Well =latexdiff= is brilliant for LaTeX files, and you
+can export Org to LaTeX! However, it's a bit of a hassle, you need to
+1. Check out an old revision of your repository
+2. Export your Org file to LaTeX
+3. Fast-forward to the newer version
+4. Do /another/ Org export to LaTeX
+5. Run =latexdiff= on the two =.tex= files
+6. Compile to a PDF, and view it
+
+Gah! This is sounding like a bit of a pain. That's where *OrgDiff* comes in. It
+automates all of the above, and provides a few other quality of life
+improvements, namely:
++ Commit selection via the venerable Magit
++ Parallel exporting of the two Org files to TeX
++ Descriptive forms of the main =latexdiff= options, accessible via a Transient interface
++ Automatic TeX compiler-upgrading. I.e., if one document needs LuaLaTeX and the
+  other needs XeLaTeX, then we need to use LuaLaTeX to compile the =latexdiff= result
+
+Along with that we provide some more basic options, like comparing any two Org
+files without git, just creating the =.tex= diff, or running ~ediff~ on the Org
+files.
+
+[[file:orgdiff-screenshot.png]]
+
+Do note that while this seems to work, it's quite early on in development, and
+it shows in the code (lack of documentation, etc.). It seems perfectly usable
+though 🙂.
