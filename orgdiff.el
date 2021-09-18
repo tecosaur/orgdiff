@@ -202,42 +202,50 @@
                                     t))
   (orgdiff-latexdiff-transient))
 
+(defface orgdiff-latexdiff-red
+  '((t :foreground "#cd3d3e"))
+  "Used to preview latexdiff's red.")
+
+(defface orgdiff-latexdiff-blue
+  '((t :foreground "#4078f2"))
+  "Used to preview latexdiff's red.")
+
 (setq orgdiff-latexdiff-flags
       `(("--type"
          (UNDERLINE .
-                    ,(concat (propertize "discarded" 'face '((:strike-through t) error))
-                             " " (propertize "added" 'face 'org-ref-label-face)
+                    ,(concat (propertize "discarded" 'face '((:strike-through t) orgdiff-latexdiff-red))
+                             " " (propertize "added" 'face 'orgdiff-latexdiff-blue)
                              " " (propertize "(default)" 'face 'shadow)))
          (CTRADITIONAL .
-                       ,(concat (propertize "[.."'face 'error)
-                                (propertize "1"'face '(superscript error))
-                                (propertize "]"'face 'error)
-                                " " (propertize "added" 'face '(variable-pitch org-ref-label-face))))
+                       ,(concat (propertize "[.."'face 'orgdiff-latexdiff-red)
+                                (propertize "1"'face '((:height 0.6) orgdiff-latexdiff-red))
+                                (propertize "]"'face 'orgdiff-latexdiff-red)
+                                " " (propertize "added" 'face '((:height 1.15) variable-pitch orgdiff-latexdiff-blue))))
          (TRADITIONAL .
-                      ,(concat "[.." (propertize "1" 'face 'superscript) "]"
-                               " " (propertize "added" 'face 'variable-pitch)))
+                      ,(concat "[.." (propertize "1" 'face '(:height 0.6)) "]"
+                               " " (propertize "added" 'face '((:height 1.15) variable-pitch))))
          (CFONT .
-                ,(concat (propertize "discarded" 'face '(small error))
-                         " " (propertize "added" 'face '(variable-pitch org-ref-label-face))))
+                ,(concat (propertize "discarded" 'face '((:height 0.7) orgdiff-latexdiff-red))
+                         " " (propertize "added" 'face '((:height 1.15) variable-pitch orgdiff-latexdiff-blue))))
          (FONTSTRIKE .
                      ,(concat (propertize "discarded" 'face '((:strike-through t) small))
-                              " " (propertize "added" 'face 'variable-pitch)))
+                              " " (propertize "added" 'face '((:height 1.15) variable-pitch))))
          (CHANGEBAR . ,(propertize "no markup, change marks in margins" 'face 'font-lock-doc-face))
          (CCHANGEBAR .
                      ,(concat (propertize "CHANGEBAR" 'face 'font-lock-function-name-face)
                               (propertize " + " 'face 'font-lock-comment-face)
-                              (propertize "discarded" 'face 'error)
-                              " " (propertize "added" 'face 'org-ref-label-face)))
+                              (propertize "discarded" 'face 'orgdiff-latexdiff-red)
+                              " " (propertize "added" 'face 'orgdiff-latexdiff-blue)))
          (CFONTCHBAR .
                      ,(concat (propertize "CHANGEBAR" 'face 'font-lock-function-name-face)
                               (propertize " + " 'face 'font-lock-comment-face)
-                              (propertize "discarded" 'face '(small error))
-                              " " (propertize "added" 'face '(variable-pitch org-ref-label-face))))
+                              (propertize "discarded" 'face '(small orgdiff-latexdiff-red))
+                              " " (propertize "added" 'face '((:height 1.15) variable-pitch orgdiff-latexdiff-blue))))
          (CULINECHBAR .
                       ,(concat (propertize "CHANGEBAR" 'face 'font-lock-function-name-face)
                                (propertize " + " 'face 'font-lock-comment-face)
-                               (propertize "discarded" 'face '((:strike-through t) error))
-                               " " (propertize "added" 'face 'org-ref-label-face)))
+                               (propertize "discarded" 'face '((:strike-through t) orgdiff-latexdiff-red))
+                               " " (propertize "added" 'face 'orgdiff-latexdiff-blue)))
          (INVISIBLE . "added")
          (BOLD .
                ,(propertize "added" 'face 'bold))
@@ -247,8 +255,8 @@
          (SAFE . ,(propertize "No additional markup (default, reccomended)" 'face 'font-lock-doc-face))
          (MARGIN . ,(propertize "Mark start and end of changed block with symbol in margin" 'face 'font-lock-doc-face))
          (COLOR .
-                ,(concat (propertize "deleted passages" 'face 'error)
-                         " " (propertize "added passages" 'face 'org-ref-label-face)))
+                ,(concat (propertize "deleted passages" 'face 'orgdiff-latexdiff-red)
+                         " " (propertize "added passages" 'face 'orgdiff-latexdiff-blue)))
          (ZLABEL . ,(propertize "Highlight changed pages, requires post-processing" 'face 'font-lock-doc-face))
          (ONLYCHANGEDPAGE . ,(propertize "(Also) Highlights changed pages, no post-processing but dodgy floats" 'face 'font-lock-doc-face)))
         ("--floattype"
