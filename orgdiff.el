@@ -373,9 +373,14 @@
 
 ;;; Actually building the diff
 
+(defcustom orgdiff-latexdiff-executable "latexdiff"
+  "Path to the latexdiff executable to use on the generated tex files.")
+
 (defun orgdiff-latexdiff-execute-pt1 ()
   (orgdiff-extract-revisions)
   (orgdiff-latex-create-from-org)
+  (unless (executable-find orgdiff-latexdiff-executable)
+    (user-error "Could not locate the latexdiff executable!"))
   (orgdiff-latexdiff-wait-for-export-then #'orgdiff-latexdiff-execute-pt2))
 
 (defun orgdiff-latexdiff-execute-pt2 ()
@@ -474,7 +479,7 @@
 (defun orgdiff-latexdiff-do-diff ()
   (message "%s%s" (propertize "Orgdiff" 'face 'bold) ": latexdiff-ing tex files...")
   (with-temp-buffer
-    (apply #'call-process "latexdiff" nil '(t nil) nil
+    (apply #'call-process orgdiff-latexdiff-executable nil '(t nil) nil
            (delq nil (list
                       "-t" (symbol-name orgdiff-latexdiff-type)
                       "-s" (symbol-name orgdiff-latexdiff-subtype)
