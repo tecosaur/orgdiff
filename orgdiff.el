@@ -282,8 +282,10 @@
                            nil t)))
     (with-temp-buffer
       (insert selection)
-      (goto-char (next-property-change 1))
-      (intern (buffer-substring-no-properties (point-min) (point))))))
+      (goto-char (point-min))
+      (intern (buffer-substring-no-properties
+               (point-min)
+               (cdr (bounds-of-thing-at-point 'word)))))))
 
 (eval-when-compile
   (orgdiff--define-infix
