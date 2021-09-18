@@ -122,10 +122,11 @@
   "Generate a diff of two Org files."
   (interactive)
 
-  (with-temp-buffer
-    (setq orgdiff--base-dir (if (= 0 (call-process "git" nil t nil "rev-parse" "--show-toplevel"))
-                                (string-trim (buffer-string))
-                              default-directory)))
+  (setq orgdiff--base-dir
+        (with-temp-buffer
+          (if (= 0 (call-process "git" nil t nil "rev-parse" "--show-toplevel"))
+              (string-trim (buffer-string))
+            default-directory)))
 
   (unless (and orgdiff-file-1 (string-prefix-p orgdiff--base-dir orgdiff-file-1))
     (setq orgdiff-file-1
