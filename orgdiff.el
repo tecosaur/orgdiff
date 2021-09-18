@@ -509,6 +509,19 @@
 If two documents require different compilers, the higher priority
 compiler will be used.")
 
+(defcustom orgdiff-latex-compile-command
+  (delq nil (list "latexmk"
+                  "-f"
+                  "-pdf"
+                  "-%compiler"
+                  (when (string-match-p "-shell-escape" (car org-latex-pdf-process))
+                    "-shell-escape")
+                  "-interaction=nonstopmode"
+                  "%texfile"))
+  "Compile command as a list in the form (\"CMD\" \"ARGS\"...).
+\"%compiler\" is replaced with the requested compiler, and
+\"%texfile\" replaced with the path to the .tex file.")
+
 (defun orgdiff-latexdiff-compile ()
   (let* ((compilers (mapcar
                      (lambda (file)
@@ -524,15 +537,12 @@ compiler will be used.")
                              (cl-position (cadr compilers) orgdiff-latex-compiler-priorities :test #'equal))
                         orgdiff-latex-compiler-priorities))
          (compile-command
-          (delq nil (list
-                     "latexmk"
-                     "-f"
-                     "-pdf"
-                     (concat "-" compiler)
-                     (when (string-match-p "-shell-escape" (car org-latex-pdf-process))
-                       "-shell-escape")
-                     "-interaction=nonstopmode"
-                     orgdiff--difffile)))
+          (mapcar
+           (lambda (arg)
+             (thread-last arg
+               (replace-regexp-in-string "%compiler" compiler)
+               (replace-regexp-in-string "%texfile" orgdiff--difffile)))
+           orgdiff-latex-compile-command))
          (default-directory (file-name-directory orgdiff--difffile)))
     (message "%s%s" (propertize "Orgdiff" 'face 'bold) ": compiling diff file...")
     (push
