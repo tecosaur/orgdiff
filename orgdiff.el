@@ -476,8 +476,8 @@
 
 (defvar orgdiff--difffile nil)
 
-(defcustom orgdiff-latexdiff-postprocess #'ignore
-  "A post-processing function which is ru on the latexdiff result.")
+(defcustom orgdiff-latexdiff-postprocess-hooks nil
+  "Post-processing functions which are run on the latexdiff result.")
 
 (defun orgdiff-latexdiff-do-diff ()
   (message "%s%s" (propertize "Orgdiff" 'face 'bold) ": latexdiff-ing tex files...")
@@ -507,7 +507,7 @@
                      (or (cadr (split-string orgdiff-git-revisions "\\.\\."))
                          "current")))
            ".tex"))
-    (funcall orgdiff-latexdiff-postprocess)
+    (run-hooks 'orgdiff-latexdiff-postprocess-hooks)
     (let (before-save-hook after-save-hook write-file-functions)
       (setq buffer-file-name orgdiff--difffile)
       (save-buffer 0))))
