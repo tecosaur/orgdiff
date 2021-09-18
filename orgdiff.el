@@ -474,7 +474,7 @@
     (call-process "latexpand" nil nil nil orgdiff--rev1file)
     (call-process "latexpand" nil nil nil orgdiff--rev2file)))
 
-(defun orgdiff--difffile nil)
+(defvar orgdiff--difffile nil)
 
 (defun orgdiff-latexdiff-do-diff ()
   (message "%s%s" (propertize "Orgdiff" 'face 'bold) ": latexdiff-ing tex files...")
