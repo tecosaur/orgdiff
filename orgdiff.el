@@ -551,8 +551,17 @@ compiler will be used.")
 
 (defun orgdiff-latexdiff-handle-pdf ()
   (message "%s%s" (propertize "Orgdiff" 'face 'bold) ": diff created.")
-  (let ((default-directory (file-name-directory orgdiff--difffile)))
-    (start-process "orgdiff-latexdiff-cleanup" nil "latexmk" "-c"))
+  ;; Cleanup
+  (when org-latex-remove-logfiles
+    (mapc #'delete-file
+          (directory-files
+           (file-name-directory orgdiff--difffile)
+           t
+           (concat (regexp-quote (file-name-base orgdiff--difffile))
+                   "\\(?:\\.[0-9]+\\)?\\."
+                   (regexp-opt org-latex-logfiles-extensions))
+           t)))
+  ;; Move the PDF to the right place
   (let ((pdf-file (concat (file-name-sans-extension orgdiff--difffile) ".pdf"))
         (dest (concat (file-name-directory orgdiff-file-1)
                       (file-name-base orgdiff--difffile)
