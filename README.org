@@ -1,6 +1,9 @@
 #+title: OrgDiff
 #+author: tecosaur
 
+#+html: <p><img src="https://img.shields.io/badge/Emacs-26.3+-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white">
+#+html: <img src="https://img.shields.io/badge/stage-%CE%B1,%20experimental-red?style=flat-square"></p>
+
 As we're all aware, one of the lovely things about working in plaintext is that
 you can run version control over your documents. =git diff= does a perfectly
 passable job at showing you how your Org files has changed, but what about when
