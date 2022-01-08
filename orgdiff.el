@@ -498,8 +498,8 @@
                       (when orgdiff-latexdiff-allow-spaces "--allow-spaces")
                       (format "--math-markup=%s" orgdiff-latexdiff-math-markup)
                       (format "--graphics-markup=%s" orgdiff-latexdiff-graphics-markup)
-                      (concat (file-name-sans-extension orgdiff--rev1file) ".tex")
-                      (concat (file-name-sans-extension orgdiff--rev2file) ".tex"))))
+                      (expand-file-name (concat (file-name-sans-extension orgdiff--rev1file) ".tex"))
+                      (expand-file-name (concat (file-name-sans-extension orgdiff--rev2file) ".tex")))))
     (setq orgdiff--difffile
           (concat
            (file-name-directory orgdiff--rev2file)
