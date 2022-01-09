@@ -92,13 +92,14 @@
    (run-at-time
     nil nil
     (lambda ()
-      (transient--emergency-exit)
+      (transient--suspend-override)
       (magit-log-select
         (lambda (r1)
           (setq orgdiff--rev1 r1)
           (magit-log-select
             (lambda (r2)
               (setq orgdiff-git-revisions (substring-no-properties (concat orgdiff--rev1 ".." r2)))
+              (transient--resume-override)
               (orgdiff-transient))
             (concat (propertize "Second revision (" 'face 'transient-heading)
                     (propertize "newer" 'face 'transient-argument)
@@ -106,12 +107,16 @@
                     "type %p to select commit at point, %q to use the current working state instead")
             (lambda ()
               (setq orgdiff-git-revisions (substring-no-properties orgdiff--rev1))
-              (orgdiff-transient))))
+              (transient--resume-override)
+              (orgdiff-transient)
+              )))
         (concat (propertize "First revision (" 'face 'transient-heading)
                 (propertize "older" 'face 'transient-argument)
                 (propertize "): " 'face 'transient-heading)
                 "type %p to select commit at point, %q to not compare any revisions")
-        #'orgdiff-transient)))
+        (lambda ()
+          (transient--resume-override)
+          (orgdiff-transient)))))
    nil))
 
 (defvar orgdiff--base-dir nil "The current directory for diffing files.")
