@@ -19,35 +19,35 @@
 ;;
 ;;; Code:
 
-(defclass transient-lisp-variable-formatted (transient-variable)
+(defclass orgdiff--transient-lisp-variable-formatted (transient-variable)
   ((reader :initform #'transient-lisp-variable--reader)
    (always-read :initform t)
    (set-value :initarg :set-value :initform #'set))
   "Class used for Lisp variables, modified version of `transient-lisp-variable'.")
 
-(cl-defmethod transient-init-value ((obj transient-lisp-variable-formatted))
+(cl-defmethod transient-init-value ((obj orgdiff--transient-lisp-variable-formatted))
   (oset obj value (symbol-value (oref obj variable))))
 
-(cl-defmethod transient-infix-set ((obj transient-lisp-variable-formatted) value)
+(cl-defmethod transient-infix-set ((obj orgdiff--transient-lisp-variable-formatted) value)
   (funcall (oref obj set-value)
            (oref obj variable)
            (oset obj value value)))
 
-(cl-defmethod transient-format-description ((obj transient-lisp-variable-formatted))
+(cl-defmethod transient-format-description ((obj orgdiff--transient-lisp-variable-formatted))
   (or (oref obj description)
       (symbol-name (oref obj variable))))
 
-(cl-defmethod transient-format-value ((obj transient-lisp-variable-formatted))
+(cl-defmethod transient-format-value ((obj orgdiff--transient-lisp-variable-formatted))
   (let ((val (oref obj value)))
     (pcase val
       ('t (propertize "yes" 'face 'transient-argument))
       ('nil (propertize "no" 'face 'transient-unreachable))
       (_ (propertize (prin1-to-string val) 'face 'transient-value)))))
 
-(cl-defmethod transient-prompt ((obj transient-lisp-variable-formatted))
+(cl-defmethod transient-prompt ((obj orgdiff--transient-lisp-variable-formatted))
   (format "Set %s: " (oref obj variable)))
 
-(defun transient-lisp-variable-formatted--reader (prompt initial-input _history)
+(defun orgdiff--transient-lisp-variable-formatted--reader (prompt initial-input _history)
   (read--expression prompt initial-input))
 
 (eval-when-compile
@@ -61,7 +61,7 @@
          :group 'orgdiff)
        (transient-define-infix ,(intern (concat "orgdiff--set-" name)) ()
          "Set `orgdiff--theme' from a popup buffer."
-         :class 'transient-lisp-variable-formatted
+         :class 'orgdiff--transient-lisp-variable-formatted
          :variable ',(intern (concat "orgdiff-" name))
          :key ,key
          :description ,description
