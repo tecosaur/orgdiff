@@ -558,7 +558,8 @@ compiler will be used.")
            (lambda (arg)
              (thread-last arg
                (replace-regexp-in-string "%compiler" compiler)
-               (replace-regexp-in-string "%texfile" orgdiff--difffile)))
+               (replace-regexp-in-string "%texfile"
+                                         (expand-file-name orgdiff--difffile))))
            orgdiff-latex-compile-command))
          (default-directory (file-name-directory orgdiff--difffile)))
     (message "%s%s" (propertize "Orgdiff" 'face 'bold) ": compiling diff file...")
