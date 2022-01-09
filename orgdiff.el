@@ -133,7 +133,8 @@
               (string-trim (buffer-string))
             default-directory)))
 
-  (unless (and orgdiff-file-1 (string-prefix-p orgdiff--base-dir orgdiff-file-1))
+  (unless (and orgdiff-file-1 (string-prefix-p orgdiff--base-dir
+                                               (expand-file-name orgdiff-file-1)))
     (setq orgdiff-file-1
           (if (and (stringp buffer-file-name) (string= ".org" (file-name-extension buffer-file-name)))
               buffer-file-name
@@ -141,7 +142,8 @@
 
   (when (and orgdiff-file-2
              (or (string= orgdiff-file-1 orgdiff-file-2)
-                 (not (string-prefix-p orgdiff--base-dir orgdiff-file-2))))
+                 (not (string-prefix-p orgdiff--base-dir
+                                       (expand-file-name orgdiff-file-2)))))
     (setq orgdiff-file-2 nil))
 
   (if (= 0 (call-process "git" nil nil nil "rev-parse" "--git-dir")) ; are we in a git dir?
