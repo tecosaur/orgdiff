@@ -95,9 +95,14 @@
       (transient--suspend-override)
       (magit-log-select
         (lambda (r1)
-          (setq orgdiff--rev1 r1)
+          (let ((r1tag (magit-rev-name r1)))
+            (when r1tag (setq r1tag (replace-regexp-in-string "tags/" "" r1tag)))
+            (setq orgdiff--rev1 (or r1tag r1)))
           (magit-log-select
             (lambda (r2)
+              (let ((r2tag (magit-rev-name r2)))
+                (when r2tag (setq r2tag (replace-regexp-in-string "tags/" "" r2tag)))
+                (setq r2 (or r2tag r2)))
               (setq orgdiff-git-revisions (substring-no-properties (concat orgdiff--rev1 ".." r2)))
               (transient--resume-override)
               (orgdiff-transient))
