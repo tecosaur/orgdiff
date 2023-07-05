@@ -19,6 +19,10 @@
 ;;
 ;;; Code:
 
+(eval-when-compile
+  (require 'cl-lib)
+  (require 'eieio))
+
 (defclass orgdiff--transient-lisp-variable-formatted (transient-variable)
   ((reader :initform #'transient-lisp-variable--reader)
    (always-read :initform t)
