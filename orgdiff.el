@@ -155,10 +155,11 @@
       (if (memq major-mode '(magit-status-mode magit-log-mode))
           ;; If in a magit buffer, set git revisions from state
           (setq orgdiff-git-revisions
-                (substring-no-properties
-                 (or (--when-let (magit-region-values '(commit branch) t)
-                       (concat (car (last it)) ".." (car it)))
-                     (magit-branch-or-commit-at-point))))
+                (let* ((commits (magit-region-values '(commit branch) t))
+                       (range (if commits
+                                  (concat (car (last commits)) ".." (car commits))
+                                (magit-branch-or-commit-at-point))))
+                  (and range (substring-no-properties range))))
         ;; Otherwise, just verify that the refs are valid
         (unless (or (null orgdiff-git-revisions)
                     (cl-every #'magit-rev-verify-commit
