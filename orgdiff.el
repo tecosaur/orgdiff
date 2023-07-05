@@ -278,11 +278,11 @@
         ("--math-markup"
          (off . "Supress markup in math environments. Only show new version")
          (whole . "Any change causes the whole equation to be marked as changed")
-         (coarse . ,(concat " Coarse granularity. Use when content and order being changed" (propertize "(default)" 'face 'shadow)))
+         (coarse . ,(concat "Coarse granularity. Use when content and order being changed" (propertize " (default)" 'face 'shadow)))
          (fine . "Detect and mark up small changes. Suitable if minor changes (e.g. typo fixes) are expected"))
         ("--graphics-markup"
          (off . "No highlighting for figures")
-         (new-only . ,(concat " Surround new/changed figures with a blue frame" (propertize "(default)" 'face 'shadow)))
+         (new-only . ,(concat "Surround new/changed figures with a blue frame" (propertize " (default)" 'face 'shadow)))
          (both . "Surround new/changed figures with a blue frame, and shrink and cross out deleted figures"))))
 
 (defun orgdiff-latexdiff-prompt-flag (flag)
@@ -293,7 +293,7 @@
                           (seq-max)))
          (options
           (mapcar (lambda (opt)
-                    (concat (propertize (symbol-name (car opt)) 'face 'font-lock-variable-name-face)
+                    (concat (propertize (symbol-name (car opt)) 'face 'transient-value)
                             (make-string (- max-key-width (length (symbol-name (car opt))) -2) ? )
                             (cdr opt)))
                   (cdr (assoc flag orgdiff-latexdiff-flags))))
@@ -323,7 +323,7 @@
    'symbol 'SAFE
    (orgdiff-latexdiff-prompt-flag "--subtype"))
   (orgdiff--define-infix
-   "-F" "latexdiff-floattype" "Float type"
+   "-f" "latexdiff-floattype" "Float type"
    'symbol 'FLOATSAFE
    (orgdiff-latexdiff-prompt-flag "--floattype"))
 
@@ -333,7 +333,7 @@
    (not orgdiff-latexdiff-flatten))
 
   (orgdiff--define-infix
-   "-s" "latexdiff-allow-spaces" "Allow spaces"
+   "-S" "latexdiff-allow-spaces" "Allow spaces"
    'boolean nil
    (not orgdiff-latexdiff-allow-spaces))
   (orgdiff--define-infix
