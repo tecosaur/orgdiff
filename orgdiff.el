@@ -386,6 +386,10 @@ compiler will be used."
   (not orgdiff-latexdiff-async))
 
 (orgdiff--define-infix
+    "-d" latexdiff-skip-deleted "Omit all deleted content"
+    'boolean nil
+  (not orgdiff-latexdiff-skip-deleted))
+(orgdiff--define-infix
     "-t" latexdiff-type "Type"
     'symbol 'UNDERLINE
   (orgdiff--latexdiff-prompt-flag "--type"))
@@ -415,6 +419,10 @@ compiler will be used."
     "-g" latexdiff-graphics-markup "Graphics markup"
     'symbol 'new-only
   (orgdiff--latexdiff-prompt-flag "--graphics-markup"))
+(orgdiff--define-infix
+    "-c" latexdiff-citation-markup "Citation markup"
+    'boolean t
+  (not orgdiff-latexdiff-citation-markup))
 
 (transient-define-prefix orgdiff--latexdiff-transient ()
   ["Processing"
@@ -426,12 +434,13 @@ compiler will be used."
    ;; Cleanup output # custom
    ]
   ["Style "
+   (orgdiff--set-latexdiff-skip-deleted)
    (orgdiff--set-latexdiff-type)
    (orgdiff--set-latexdiff-subtype)
    (orgdiff--set-latexdiff-floattype)
-   (orgdiff--set-latexdiff-math-markup)
    (orgdiff--set-latexdiff-graphics-markup)
-   ;; Citation markup?
+   (orgdiff--set-latexdiff-math-markup)
+   (orgdiff--set-latexdiff-citation-markup)
    ]
   ["Action"
    ("l" "run latexdiff, compile, and open PDF" orgdiff--latexdiff--action-pdf-open)
@@ -563,6 +572,9 @@ compiler will be used."
                       "-s" (symbol-name orgdiff-latexdiff-subtype)
                       "-f" (symbol-name orgdiff-latexdiff-floattype)
                       (and orgdiff-latexdiff-allow-spaces "--allow-spaces")
+                      (and orgdiff-latexdiff-skip-deleted "--no-del")
+                      (if orgdiff-latexdiff-citation-markup
+                          "--enable-citation-markup" "--disable-citation-markup")
                       (format "--math-markup=%s" orgdiff-latexdiff-math-markup)
                       (format "--graphics-markup=%s" orgdiff-latexdiff-graphics-markup)
                       (expand-file-name (concat (file-name-sans-extension orgdiff--rev1file) ".tex"))
