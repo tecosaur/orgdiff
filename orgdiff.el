@@ -381,9 +381,17 @@ compiler will be used."
                (cdr (bounds-of-thing-at-point 'word)))))))
 
 (orgdiff--define-infix
-    "-a" latexdiff-async "Export Org to TeX asyncronously"
+    "-A" latexdiff-async "Export Org to TeX asyncronously"
     'boolean nil
   (not orgdiff-latexdiff-async))
+(orgdiff--define-infix
+    "-F" latexdiff-flatten "Flatten includes"
+    'boolean nil
+  (not orgdiff-latexdiff-flatten))
+(orgdiff--define-infix
+    "-S" latexdiff-allow-spaces "Allow spaces"
+    'boolean nil
+  (not orgdiff-latexdiff-allow-spaces))
 
 (orgdiff--define-infix
     "-d" latexdiff-skip-deleted "Omit all deleted content"
@@ -401,16 +409,6 @@ compiler will be used."
     "-f" latexdiff-floattype "Float type"
     'symbol 'FLOATSAFE
   (orgdiff--latexdiff-prompt-flag "--floattype"))
-
-(orgdiff--define-infix
-    "-F" latexdiff-flatten "Flatten includes"
-    'boolean nil
-  (not orgdiff--latexdiff-flatten))
-
-(orgdiff--define-infix
-    "-S" latexdiff-allow-spaces "Allow spaces"
-    'boolean nil
-  (not orgdiff-latexdiff-allow-spaces))
 (orgdiff--define-infix
     "-m" latexdiff-math-markup "Math markup"
     'symbol 'coarse
@@ -433,7 +431,7 @@ compiler will be used."
    ;; Preamble file
    ;; Cleanup output # custom
    ]
-  ["Style "
+  ["Style"
    (orgdiff--set-latexdiff-skip-deleted)
    (orgdiff--set-latexdiff-type)
    (orgdiff--set-latexdiff-subtype)
