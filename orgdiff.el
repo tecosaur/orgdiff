@@ -342,9 +342,9 @@ compiler will be used."
      (ZLABEL . ,(propertize "Highlight changed pages, requires post-processing" 'face 'font-lock-doc-face))
      (ONLYCHANGEDPAGE . ,(propertize "(Also) Highlights changed pages, no post-processing but dodgy floats" 'face 'font-lock-doc-face)))
     ("--floattype"
-     (FLOATSAFE . "")
-     (TRADITIONALSAFE . "")
-     (IDENTICAL . ""))
+     (FLOATSAFE . ,(concat "Treat as main text, but skip begin/end commands" (propertize " (default)" 'face 'shadow)))
+     (TRADITIONALSAFE . "Make deleted environments small and wrapped in brackets. Use with TRADITIONAL/CTRADITIONAL")
+     (IDENTICAL . "Treat floats exactly the same as the main text"))
     ("--math-markup"
      (off . "Supress markup in math environments. Only show new version")
      (whole . "Any change causes the whole equation to be marked as changed")
